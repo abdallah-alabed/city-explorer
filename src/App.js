@@ -3,6 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import LocationForm from "./components/LocationForm";
 import Location from "./components/Location";
 import axios from "axios";
+// import { Alert } from "react-bootstrap";
+
 
 class App extends Component {
   constructor(props) {
@@ -13,6 +15,8 @@ class App extends Component {
       lon: "",
       showData: false,
       location: "",
+      errorData: "",
+      errorStatus: "",
     };
   }
   handleLocation = (e) => {
@@ -23,8 +27,22 @@ class App extends Component {
     });
   };
   handleSubmit = (e) => {
-    console.log(this.state.location);
     e.preventDefault();
+    axios
+      .get(
+        `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${this.state.display_name}&format=json`
+      )
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response.data);
+          console.log(error.response.status);
+          alert(
+            `Error: ${error.response.status}, Please Enter a Valid geopoint`
+          );
+         
+        }
+      });
+
     let select = {
       method: "GET",
       baseURL: `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${this.state.display_name}&format=json`,
@@ -35,7 +53,7 @@ class App extends Component {
         lon: responseData.lon,
         lat: responseData.lat,
         display_name: responseData.display_name,
-      })
+      });
       this.setState({
         type: responseData.type,
         location: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${this.state.lat},${this.state.lon}&zoom=5`,

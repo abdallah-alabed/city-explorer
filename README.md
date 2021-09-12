@@ -2,15 +2,19 @@
 
 **Author**: Abdallah Alabed
 **Version**: 1.0.0
- <!-- (increment the patch/fix version number if you make more commits past your first submission) -->
+ <!-- Sunday 12/9 -->
 
 ## Overview
+we are creating a cities exploring website where you enter the name of the city and we display the latitude and longitude and show you the map.
 <!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
 
 ## Getting Started
+1- in the search bar search for your destination
+2- press explore!
 <!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
 
 ## Architecture
+we are using JS,ReactJS & bootstrap
 <!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
 
 ## Change Log
@@ -20,3 +24,14 @@
 
 ## Credit and Collaborations
 <!-- Give credit (and a link) to other people or resources that helped you build this application. -->
+
+
+Name of feature: Create forms and card to search for the location
+
+Estimate of time needed to complete: 2 hours
+
+Start time: 2 pm
+
+Finish time: 7 pm
+
+Actual time needed to complete: 5 hours
