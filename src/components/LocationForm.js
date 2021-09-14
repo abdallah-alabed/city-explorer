@@ -6,12 +6,11 @@ class LocationForm extends Component {
     return (
       <div>
         <Form onSubmit={this.props.handleSubmit}>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>What City You Want To Explore?</Form.Label>
+          <Form.Group controlId="formBasicEmail">
             <Form.Control
               type="text"
-              placeholder="Please Enter a Location..."
-              onChange={this.props.handleLocation}
+              placeholder="Enter City Name"
+              onChange={this.props.newName}
             />
           </Form.Group>
           <Button variant="primary" type="submit">
