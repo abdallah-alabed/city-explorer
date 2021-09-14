@@ -1,98 +1,74 @@
-import React, { Component } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LocationForm from "./components/LocationForm";
 import Location from "./components/Location";
 import axios from "axios";
-// import { Alert } from "react-bootstrap";
-import Weather from "./components/Weather";
-class App extends Component {
+// import Weather from "./components/Weather";
+import { Alert } from "react-bootstrap";
+import "./App.css";
+
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      display_name: "",
+      searchQuery: "",
+      cityData: "",
+      displayMap: false,
+      errorMessage: false,
+      errorCode: "",
+      weatherItem: [],
+      showWeather: false,
       lat: "",
       lon: "",
-      showData: false,
-      location: "",
-      errorData: "",
-      errorStatus: "",
-      weatherData:[]
     };
   }
-  handleLocation = (e) => {
-    let display_name = e.target.value;
-    this.setState({
-      display_name: display_name,
-      showData: false,
-    });
-  };
-  handleSubmit = (e) => {
-    e.preventDefault();
-    axios
-      .get(
-        `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${this.state.display_name}&format=json`
-      )
-      .catch(function (error) {
-        if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
-          alert(
-            `Error: ${error.response.status}, Please Enter a Valid geopoint`
-          );
-        }
-      });
-   
-    let select = {
-      method: "GET",
-      baseURL: `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${this.state.display_name}&format=json`,
-    };
-    axios(select).then((res) => {
-      let responseData = res.data[0];
+
+  handleSubmit = async (event) => {
+    event.preventDefault();
+
+    let cityUrl = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${this.state.searchQuery}&format=json`;
+
+    try {
+      let cityResult = await axios.get(cityUrl);
       this.setState({
-        lon: responseData.lon,
-        lat: responseData.lat,
-        display_name: responseData.display_name,
-        errorData: "",
-        errorStatus: "",
-                
+        cityData: cityResult.data[0],
+        displayMap: true,
+        errorMessage: false,
+        lat: cityResult.data[0].lat,
+        lon: cityResult.data[0].lon,
       });
+    } catch (error) {
       this.setState({
-        type: responseData.type,
-        location: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${this.state.lat},${this.state.lon}&zoom=5`,
-        showData: true,
-      })
-    }).then(()=>{
-      axios.get(`http://${process.env.REACT_APP_BACKEND_URL}/weather?lat=${this.state.lat}&lon=${this.state.lon}&searchQuery=${this.state.display_name}`)
-      .then(res=>{
-        this.setState({
-         weatherData: res.data
-        })
-      })
-    })
+        displayMap: false,
+        errorMessage: true,
+        errorCode: error,
+      });
+    }
     
   };
 
-
+  newName = (event) => {
+    this.setState({
+      searchQuery: event.target.value,
+    });
+  };
 
   render() {
-    console.log(this.state.weatherData)
     return (
-      <div>
-        <LocationForm
-          handleLocation={this.handleLocation}
-          handleSubmit={this.handleSubmit}
-        />
-        <br></br>
-        {this.state.showData && (
-          <Location
-            display_name={this.state.display_name}
-            location={this.state.location}
-            lat={this.state.lat}
-            lon={this.state.lon}
-          />
+      <>
+        <h1>Abdallah's City Explorer</h1>
+
+        <LocationForm handleSubmit={this.handleSubmit} newName={this.newName} />
+
+        {this.state.displayMap && <Location cityData={this.state.cityData} />}
+
+        {this.state.errorMessage && (
+          <Alert variant="warning">
+            Error Code: {this.state.errorCode.response.status}, please enter a
+            suitable city.
+          </Alert>
         )}
-        <Weather weatherData={this.props.weatherData} />
-      </div>
+      </>
     );
   }
 }
