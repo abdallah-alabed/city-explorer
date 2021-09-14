@@ -1,40 +1,19 @@
 import React, { Component } from "react";
-// import { Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 
-// class Weather extends Component {
-//   render() {
-//     {
-//       console.log("this is from weather", this.props);
-//     }
-
-//     return (
-//       <div>
-//         {this.props.weatherData.map((e) => {
-//         //   {
-//         //     e.valid_date.map((elem) => {
-//         //       return <p> {elem} uyasdvyv </p>;
-//         //     });
-//         //   }
-//         <p> Amman </p>
-//         })}
-//       </div>
-//     );
-//   }
-// }
-let Weather = (props) => {
-    console.log("this is from weather", props);
-  return (
-   
-    //   props.weatherData.map((e) => {
-        // {
-        //   e.valid_date.map((elem) => {
-        //     <p> {elem} uyasdvyv </p>;
-        //   });
-        // }
-        <p> {props.weatherData} </p>
-    //   })
-    
-//   );
-  )}
+class Weather extends Component {
+  render() {
+    return (
+      <Card style={{ width: "30rem" }}>
+        <Card.Body>
+          <Card.Title>The Weather for the Upcoming 16 Days {this.props.weatherData}</Card.Title>
+          <Card.Text>
+            
+          </Card.Text>
+        </Card.Body>
+      </Card>
+    );
+  }
+}
 
 export default Weather;
