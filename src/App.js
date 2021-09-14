@@ -4,8 +4,7 @@ import LocationForm from "./components/LocationForm";
 import Location from "./components/Location";
 import axios from "axios";
 // import { Alert } from "react-bootstrap";
-
-
+import Weather from "./components/Weather";
 class App extends Component {
   constructor(props) {
     super(props);
@@ -17,6 +16,7 @@ class App extends Component {
       location: "",
       errorData: "",
       errorStatus: "",
+      weatherData:[]
     };
   }
   handleLocation = (e) => {
@@ -39,10 +39,9 @@ class App extends Component {
           alert(
             `Error: ${error.response.status}, Please Enter a Valid geopoint`
           );
-         
         }
       });
-
+   
     let select = {
       method: "GET",
       baseURL: `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${this.state.display_name}&format=json`,
@@ -53,16 +52,30 @@ class App extends Component {
         lon: responseData.lon,
         lat: responseData.lat,
         display_name: responseData.display_name,
+        errorData: "",
+        errorStatus: "",
+                
       });
       this.setState({
         type: responseData.type,
         location: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${this.state.lat},${this.state.lon}&zoom=5`,
         showData: true,
-      });
-    });
+      })
+    }).then(()=>{
+      axios.get(`http://${process.env.REACT_APP_BACKEND_URL}/weather?lat=${this.state.lat}&lon=${this.state.lon}&searchQuery=${this.state.display_name}`)
+      .then(res=>{
+        this.setState({
+         weatherData: res.data
+        })
+      })
+    })
+    
   };
 
+
+
   render() {
+    console.log(this.state.weatherData)
     return (
       <div>
         <LocationForm
@@ -78,6 +91,7 @@ class App extends Component {
             lon={this.state.lon}
           />
         )}
+        <Weather weatherData={this.props.weatherData} />
       </div>
     );
   }
