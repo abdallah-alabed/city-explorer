@@ -4,16 +4,17 @@ import { Form, Button } from "react-bootstrap";
 class LocationForm extends Component {
   render() {
     return (
-      <div>
-        <Form style={{ width: "40rem" }} onSubmit={this.props.handleSubmit}>
+      <div class="d-flex justify-content-center">
+        <Form style={{ width: "40rem" }} onSubmit={this.props.handleSubmit} >
           <Form.Group controlId="formBasicEmail">
             <Form.Control
+              class="text-center"
               type="text"
               placeholder="Enter City Name"
               onChange={this.props.newName}
             />
           </Form.Group>
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" >
             Explore!
           </Button>
         </Form>

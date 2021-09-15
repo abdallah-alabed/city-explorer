@@ -90,13 +90,17 @@ class App extends Component {
     console.log(this.state.errorMessage);
     return (
       <>
-        <h1>Abdallah's City Explorer</h1>
+        <h1 class="text-center fst-italic text-decoration-underline">Abdallah's City Explorer</h1>
 
         <LocationForm handleSubmit={this.handleSubmit} newName={this.newName} />
+        <br></br>
+        <br></br>
 
         {!this.state.errorMessage && this.state.displayMap && (
           <Location cityData={this.state.cityData} />
         )}
+        <br></br>
+        <br></br>
 
         {!this.state.errorMessage && this.state.showWeather && (
           <Weather weatherData={this.state.weatherData} />
@@ -107,6 +111,10 @@ class App extends Component {
             Error Code:400, please enter a suitable city.
           </Alert>
         )}
+
+        <br></br>
+        <br></br>
+
         {!this.state.errorMessage && this.state.showMovies && (
           <Movies
             moviesData={this.state.moviesData}
