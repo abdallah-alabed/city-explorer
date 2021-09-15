@@ -5,7 +5,7 @@ class LocationForm extends Component {
   render() {
     return (
       <div>
-        <Form onSubmit={this.props.handleSubmit}>
+        <Form style={{ width: "40rem" }} onSubmit={this.props.handleSubmit}>
           <Form.Group controlId="formBasicEmail">
             <Form.Control
               type="text"

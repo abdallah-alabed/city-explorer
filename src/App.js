@@ -1,9 +1,9 @@
-import React,{Component} from "react";
+import React, { Component } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import LocationForm from "./components/LocationForm";
 import Location from "./components/Location";
 import axios from "axios";
-// import { Alert } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
 import "./App.css";
 import Weather from "./components/Weather";
 import Movies from "./components/Movies";
@@ -44,7 +44,7 @@ class App extends Component {
       this.setState({
         displayMap: false,
         errorMessage: true,
-        errorCode: error,
+        errorCode: error[0],
       });
     }
 
@@ -52,6 +52,7 @@ class App extends Component {
 
     try {
       let weatherResult = await axios.get(weatherUrl);
+      console.log(weatherResult);
       this.setState({
         weatherData: weatherResult.data,
         showWeather: true,
@@ -67,6 +68,7 @@ class App extends Component {
 
     try {
       let moviesResult = await axios.get(movieUrl);
+      console.log(moviesResult);
       this.setState({
         moviesData: moviesResult.data,
         showMovies: true,
@@ -85,29 +87,33 @@ class App extends Component {
   };
 
   render() {
+    console.log(this.state.errorMessage);
     return (
       <>
         <h1>Abdallah's City Explorer</h1>
 
         <LocationForm handleSubmit={this.handleSubmit} newName={this.newName} />
 
-        {this.state.displayMap && <Location cityData={this.state.cityData} />}
-        {this.state.displayMap && (
+        {!this.state.errorMessage && this.state.displayMap && (
+          <Location cityData={this.state.cityData} />
+        )}
+
+        {!this.state.errorMessage && this.state.showWeather && (
           <Weather weatherData={this.state.weatherData} />
         )}
 
         {this.state.errorMessage && (
           <Alert variant="warning">
-            Error Code: {this.state.errorCode.res.status}, please enter a
-            suitable city.
+            Error Code:400, please enter a suitable city.
           </Alert>
         )}
-        {this.state.displayMap && (
+        {!this.state.errorMessage && this.state.showMovies && (
           <Movies
             moviesData={this.state.moviesData}
             showMovies={this.state.showMovies}
           />
         )}
+        
       </>
     );
   }
