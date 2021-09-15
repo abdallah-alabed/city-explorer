@@ -48,7 +48,7 @@ class App extends Component {
       });
     }
 
-    let weatherUrl = `http://${process.env.REACT_APP_BACKEND_URL}/weather?city=${this.state.searchQuery}&key=${process.env.REACT_APP_WEATHER_API_KEY}`;
+    let weatherUrl = `${process.env.REACT_APP_BACKEND_URL}/weather?city=${this.state.searchQuery}&key=${process.env.REACT_APP_WEATHER_API_KEY}`;
 
     try {
       let weatherResult = await axios.get(weatherUrl);
@@ -64,7 +64,7 @@ class App extends Component {
       });
     }
 
-    let movieUrl = `http://${process.env.REACT_APP_BACKEND_URL}/movie?api_key=${process.env.REACT_APP_MOVIE_API_KEY}&query=${this.state.searchQuery}`;
+    let movieUrl = `${process.env.REACT_APP_BACKEND_URL}/movie?api_key=${process.env.REACT_APP_MOVIE_API_KEY}&query=${this.state.searchQuery}`;
 
     try {
       let moviesResult = await axios.get(movieUrl);
